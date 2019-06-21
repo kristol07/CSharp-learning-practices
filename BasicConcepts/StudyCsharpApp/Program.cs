@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Study;
+using Study.Extensions;
 
 namespace StudyCSharpApp
 {
@@ -76,6 +77,27 @@ namespace StudyCSharpApp
             }
 
             foreach (var i in nList2)
+            {
+                Console.WriteLine(i);
+            }
+
+
+            List<int> nList3 = new List<int>();
+
+            nList3.Add(1);
+            nList3.Add(3);
+            nList3.Add(7);
+            nList3.Add(10);
+
+            List<int> nList4 = nList3.Transform(x => x * 2);
+            List<int> nList5 = nList3.Filter(x => x < 4);
+
+            foreach (var i in nList4)
+            {
+                Console.WriteLine(i);
+            }
+
+            foreach (var i in nList5)
             {
                 Console.WriteLine(i);
             }

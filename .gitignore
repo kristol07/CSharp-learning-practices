@@ -11,6 +11,9 @@
 BasicConcepts/*
 !BasicConcepts/Study/
 BasicConcepts/Study/*
+!BasicConcepts/Study/Extensions
+BasicConcepts/Study/Extensions/*
+!BasicConcepts/Study/Extensions/*.cs
 !BasicConcepts/Study/*.cs
 !BasicConcepts/StudyCsharpApp/
 BasicConcepts/StudyCsharpApp/*
