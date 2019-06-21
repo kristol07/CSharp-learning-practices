@@ -89,7 +89,7 @@ namespace StudyCSharpApp
             nList3.Add(7);
             nList3.Add(10);
 
-            List<int> nList4 = nList3.Transform(x => x * 2);
+            List<bool> nList4 = nList3.Transform(x => x > 2);
             List<int> nList5 = nList3.Filter(x => x < 4);
 
             foreach (var i in nList4)
