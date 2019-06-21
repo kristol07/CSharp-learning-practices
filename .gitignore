@@ -1,0 +1,27 @@
+## ignore everything
+*
+
+#################
+!.gitignore
+!README.md
+!*/
+
+###################
+!BasicConcepts/
+BasicConcepts/*
+!BasicConcepts/Study/
+BasicConcepts/Study/*
+!BasicConcepts/Study/*.cs
+!BasicConcepts/StudyCsharpApp/
+BasicConcepts/StudyCsharpApp/*
+!BasicConcepts/StudyCsharpApp/*.cs
+
+
+###################
+!Accounts/
+Accounts/*
+!Accounts/AccountsApp-Homework-Description.pdf
+!Accounts/*.cs
+!Accounts/AccountItem/
+Accounts/AccountItem/*
+!Accounts/AccountItem/*.cs

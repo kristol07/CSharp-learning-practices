@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using AccountItem;
+using AccountItem.Extensions;
 
 namespace AccountsApp
 {
+
+    public delegate bool FilterHandler(Item item);
+
     public class Accounts
     {
         private List<Item> accounts = new List<Item>();
@@ -20,7 +24,7 @@ namespace AccountsApp
 
             foreach (Item item in accounts)
             {
-                if (item.OccuredTime.Month == time.Month)
+                if ( time.IsSameMonthOfSameYear(item.OccuredTime) )
                 {
                     if (item.category == Category.Spending)
                     {
@@ -42,23 +46,20 @@ namespace AccountsApp
             Console.WriteLine("Revenue(" + time.ToString("MMMM") + "): " + TotalRevenue);
         }
 
-        public Money TotalExpenditure(DateTime time)
-        {
-            Money expend = new Money(0);
+        //public Money TotalExpenditure(DateTime time)
+        //{
+        //    Money expend = new Money(0);
 
-            foreach (Item item in accounts)
-            {
-                if (item.OccuredTime.Month == time.Month)
-                {
-                    if (item.category == Category.Spending)
-                    {
-                        expend += item.Amount;
-                    }
-                }
-            }
+        //    foreach (Item item in accounts)
+        //    {
+        //        if ( time.IsSameMonthOfSameYear(item.OccuredTime) && item.IsSpending() )
+        //        {
+        //                expend += item.Amount;
+        //        }
+        //    }
 
-            return expend;
-        }
+        //    return expend;
+        //}
 
         public void DisplayTotalExpenditure(DateTime time)
         {
@@ -66,22 +67,44 @@ namespace AccountsApp
             Console.WriteLine("Expend(" + time.ToString("MMMM") + "): " + TotalExpenditure);
         }
 
+        //public Money TotalIncome(DateTime time)
+        //{
+        //    Money income = new Money(0);
+
+        //    foreach (Item item in accounts)
+        //    {
+        //        if ( time.IsSameMonthOfSameYear(item.OccuredTime) && item.IsIncome() )
+        //        {
+        //                income += item.Amount;
+        //        }
+        //    }
+
+        //    return income;
+        //}
+
         public Money TotalIncome(DateTime time)
         {
-            Money income = new Money(0);
+            return Calculate(item => time.IsSameMonthOfSameYear(item.OccuredTime) && item.IsIncome());
+        }
+
+        public Money TotalExpenditure(DateTime time)
+        {
+            return Calculate(item => time.IsSameMonthOfSameYear(item.OccuredTime) && item.IsSpending());
+        }
+
+        private Money Calculate(FilterHandler filter)
+        {
+            Money total = new Money(0);
 
             foreach (Item item in accounts)
             {
-                if (item.OccuredTime.Month == time.Month)
-                {
-                    if (item.category == Category.Income)
-                    {
-                        income += item.Amount;
-                    }
+                if (filter(item))
+               {
+                    total += item.Amount;
                 }
             }
 
-            return income;
+            return total;
         }
 
         public void DisplayTotalIncome(DateTime time)
@@ -94,7 +117,7 @@ namespace AccountsApp
         {
             foreach (Item item in accounts)
             {
-                if (item.OccuredTime.Month == time.Month)
+                if ( time.IsSameMonthOfSameYear(item.OccuredTime) )
                 {
                     yield return item;
                 }
@@ -108,6 +131,8 @@ namespace AccountsApp
                 Console.WriteLine(item);
             }
         }
+
+
 
     }
 }

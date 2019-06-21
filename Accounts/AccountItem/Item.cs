@@ -62,6 +62,15 @@ namespace AccountItem
             this.OccuredTime = occuredTime;
         }
 
+        public bool IsSpending()
+        {
+            return category == Category.Spending;
+        }
+
+        public bool IsIncome()
+        {
+            return category == Category.Income;
+        }
 
         public override string ToString()
         {
