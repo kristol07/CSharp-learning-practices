@@ -24,4 +24,7 @@ Accounts/*
 !Accounts/*.cs
 !Accounts/AccountItem/
 Accounts/AccountItem/*
+!Accounts/AccountItem/Extensions/
+Accounts/AccountItem/Extensions/*
+!Accounts/AccountItem/Extensions/*.cs
 !Accounts/AccountItem/*.cs
