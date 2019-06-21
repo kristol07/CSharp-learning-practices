@@ -5,8 +5,11 @@ using System.Text;
 namespace Study
 {
 
-    public delegate int TransformHandler(int i);
-    public delegate bool FilterHandler(int i);
+    //public delegate int TransformHandler(int i);
+    //public delegate bool FilterHandler(int i);
+
+    //public delegate R Function<T, R>(T x); // System.Func
+    //public delegate bool Predicate<T>(T x);  // System.Predicate
 
     public class MyList
     {
@@ -17,7 +20,7 @@ namespace Study
             numbers.Add(i);
         }
 
-        public List<int> Transform(TransformHandler th)
+        public List<int> Transform(Func<int, int> th)
         {
             List<int> result = new List<int>();
 
@@ -29,7 +32,7 @@ namespace Study
             return result;
         }
 
-        public List<int> Filter(FilterHandler fh)
+        public List<int> Filter(Predicate<int> fh)
         {
             List<int> result = new List<int>();
 
