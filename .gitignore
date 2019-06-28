@@ -18,6 +18,7 @@ BasicConcepts/Study/Extensions/*
 !BasicConcepts/StudyCsharpApp/
 BasicConcepts/StudyCsharpApp/*
 !BasicConcepts/StudyCsharpApp/*.cs
+!BasicConcepts/StudyCsharpApp/*.sln
 
 
 ###################
@@ -25,9 +26,17 @@ BasicConcepts/StudyCsharpApp/*
 Accounts/*
 !Accounts/AccountsApp-Homework-Description.pdf
 !Accounts/*.cs
+!Accounts/*.sln
 !Accounts/AccountItem/
 Accounts/AccountItem/*
 !Accounts/AccountItem/Extensions/
 Accounts/AccountItem/Extensions/*
 !Accounts/AccountItem/Extensions/*.cs
 !Accounts/AccountItem/*.cs
+
+##################
+!OvenApp/
+OvenApp/*
+!OvenApp/*.cs
+!OvenApp/README*
+!OvenApp/*.sln
