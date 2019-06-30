@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 using AccountItem;
 using AccountItem.Extensions;
 
@@ -144,7 +145,43 @@ namespace AccountsApp
             }
         }
 
+        public void SaveAccountBook(string pathName)
+        {
+            using(StreamWriter sw = new StreamWriter(pathName))
+            {
+                foreach (Item item in accounts)
+                {
+                    sw.WriteLine(item.Save());
+                }
+            }
+        }
 
+        public void LoadAccountBook(string pathName)
+        {
+            try
+            {
+                if (File.Exists(pathName))
+                {
+                    using (var streamReader = new StreamReader(pathName, Encoding.UTF8))
+                    {
+                        string line;
+                        int i = 0;
+                        while ((line = streamReader.ReadLine()) != null)
+                        {
+                            Item item = Item.String2Item(line);
+                            if (i < accounts.Count) { this[i++] = item; }
+                            else { this.AddItem(item); }
+                        }
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Can't save the account book.");
+                Console.WriteLine(e.Message);
+            }
+          
+        }
 
     }
 }

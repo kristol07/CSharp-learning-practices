@@ -77,5 +77,25 @@ namespace AccountItem
             return $"{Name} ({OccuredTime.ToString("MMMM dd, yyyy")}): {type}{Amount.ToString()}. | Content: {Content} | Note: {Note}";
         }
 
+        public string Save()
+        {
+            return $"{Name}|{OccuredTime}|{category}|{Amount.Value}|{Amount.currency}|{Content}|{Note}";
+        }
+
+        public static Item String2Item(string itemString)
+        {
+            string[] s = itemString.Split("|");
+
+            string name = s[0];
+            DateTime occuredTime = DateTime.Parse(s[1]);
+            Category category = (Category)Enum.Parse(typeof(Category), s[2]);
+            double amountValue = Double.Parse(s[3]);
+            Currency currency = (Currency)Enum.Parse(typeof(Currency), s[4]);
+            string content = s[5];
+            string note = s[6];
+
+            return new Item(name, category, content, note, amountValue, currency, occuredTime);
+        }
+
     }
 }

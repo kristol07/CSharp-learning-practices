@@ -56,6 +56,12 @@ namespace AccountsApp
             // Test accessor
             ac[3] = new Item("eat2", Category.Spending, 30, Currency.USD);
             Console.WriteLine(ac[3]);
+
+            //ac.SaveAccountBook("test.txt");
+            //ac.LoadAccountBook("test.txt");
+            //ac.DisplayAllItems();
+            
+
         }
     }
 }
