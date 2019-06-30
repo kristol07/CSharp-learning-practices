@@ -53,6 +53,9 @@ namespace AccountsApp
             Console.WriteLine("\n----ALL ITEMS----\n");
             ac.DisplayAllItems();
 
+            // Test accessor
+            ac[3] = new Item("eat2", Category.Spending, 30, Currency.USD);
+            Console.WriteLine(ac[3]);
         }
     }
 }

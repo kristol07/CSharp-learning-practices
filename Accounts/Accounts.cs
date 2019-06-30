@@ -13,6 +13,18 @@ namespace AccountsApp
     {
         private List<Item> accounts = new List<Item>();
 
+        public Item this [int index]
+        {
+            get
+            {
+                return accounts[index];
+            }
+            set
+            {
+                accounts[index] = value;
+            }
+        }
+
         public void AddItem(Item item)
         {
             accounts.Add(item);
