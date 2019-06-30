@@ -6,8 +6,6 @@ using System.Threading;
 namespace OvenApp
 {
 
-    public delegate void DoSomething();
-
     public class Oven
     {
 
@@ -20,13 +18,15 @@ namespace OvenApp
         {
             get; set;
         }
+        public string AlarmMessage { get; set; }
 
-        public Oven() : this(37, 100) { }
-        public Oven(int thresholdTemperature): this(37, thresholdTemperature) { }
-        public Oven(int temperature, int thresholdTemperature)
+        public Oven() : this(37, 100, "OverHeat!") { }
+        public Oven(int thresholdTemperature): this(37, thresholdTemperature, "OverHeat!") { }
+        public Oven(int temperature, int thresholdTemperature, string alarmMessage)
         {
             Temperature = temperature;
             ThresholdTemperature = thresholdTemperature;
+            AlarmMessage = alarmMessage;
         }
 
         public void Run()
@@ -36,7 +36,7 @@ namespace OvenApp
             while (IsOn)
             {
                 Heat();
-                if (Temperature >= ThresholdTemperature)
+                if (OverHeatEventRaiser != null && Temperature >= ThresholdTemperature)
                 {
                     OverHeatEventRaiser();
                 }
@@ -60,6 +60,11 @@ namespace OvenApp
         {
             Temperature += 1;
             Console.WriteLine("The temperature is: {0}°C", Temperature);
+        }
+
+        public void Alarm()
+        {
+            Console.WriteLine(AlarmMessage);
         }
 
     }
