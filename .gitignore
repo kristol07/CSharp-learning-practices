@@ -22,17 +22,35 @@ BasicConcepts/StudyCsharpApp/*
 
 
 ###################
-!Accounts/
-Accounts/*
-!Accounts/AccountsApp-Homework-Description.pdf
-!Accounts/*.cs
-!Accounts/*.sln
-!Accounts/AccountItem/
-Accounts/AccountItem/*
-!Accounts/AccountItem/Extensions/
-Accounts/AccountItem/Extensions/*
-!Accounts/AccountItem/Extensions/*.cs
-!Accounts/AccountItem/*.cs
+#!Accounts/
+#Accounts/*
+#!Accounts/AccountsApp-Homework-Description.pdf
+#!Accounts/*.cs
+#!Accounts/*.sln
+#!Accounts/AccountItem/
+#Accounts/AccountItem/*
+#!Accounts/AccountItem/Extensions/
+#Accounts/AccountItem/Extensions/*
+#!Accounts/AccountItem/Extensions/*.cs
+#!Accounts/AccountItem/*.cs
+
+
+###################
+!AccountBook/
+AccountBook/*
+!AccountBook/AccountConsoleApp/
+!AccountBook/AccountItem/
+!AccountBook/AccountWPFAPP/
+AccountBook/AccountConsoleApp/*
+AccountBook/AccountItem/*
+AccountBook/AccountWPFAPP/*
+!AccountBook/AccountConsoleApp/*.cs
+!AccountBook/AccountConsoleApp/*.sln
+!AccountBook/AccountItem/*.cs
+!AccountBook/AccountItem/Extensions/
+AccountBook/AccountItem/Extensions/*
+!AccountBook/AccountItem/Extensions/*.cs
+!AccountBook/AccountWPFAPP/*.cs
 
 ##################
 !OvenApp/
