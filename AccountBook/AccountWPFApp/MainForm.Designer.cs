@@ -68,6 +68,7 @@
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
+            this.removeItem = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.moneyBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeExtensionBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.accountsBindingSource)).BeginInit();
@@ -85,7 +86,7 @@
             // 
             // importAccountBook
             // 
-            this.importAccountBook.Location = new System.Drawing.Point(502, 62);
+            this.importAccountBook.Location = new System.Drawing.Point(500, 62);
             this.importAccountBook.Name = "importAccountBook";
             this.importAccountBook.Size = new System.Drawing.Size(75, 23);
             this.importAccountBook.TabIndex = 1;
@@ -95,7 +96,7 @@
             // 
             // saveAccountBook
             // 
-            this.saveAccountBook.Location = new System.Drawing.Point(502, 398);
+            this.saveAccountBook.Location = new System.Drawing.Point(500, 392);
             this.saveAccountBook.Name = "saveAccountBook";
             this.saveAccountBook.Size = new System.Drawing.Size(75, 23);
             this.saveAccountBook.TabIndex = 2;
@@ -167,7 +168,7 @@
             // 
             // savePathName
             // 
-            this.savePathName.Location = new System.Drawing.Point(285, 399);
+            this.savePathName.Location = new System.Drawing.Point(283, 393);
             this.savePathName.Name = "savePathName";
             this.savePathName.Size = new System.Drawing.Size(194, 21);
             this.savePathName.TabIndex = 11;
@@ -195,10 +196,11 @@
             // 
             // importPathName
             // 
-            this.importPathName.Location = new System.Drawing.Point(285, 63);
+            this.importPathName.Location = new System.Drawing.Point(283, 63);
             this.importPathName.Name = "importPathName";
             this.importPathName.Size = new System.Drawing.Size(194, 21);
             this.importPathName.TabIndex = 15;
+            this.importPathName.TextChanged += new System.EventHandler(this.ImportPathName_TextChanged);
             // 
             // label1
             // 
@@ -212,7 +214,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(285, 384);
+            this.label2.Location = new System.Drawing.Point(283, 378);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 17;
@@ -221,7 +223,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(285, 48);
+            this.label3.Location = new System.Drawing.Point(283, 48);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 18;
@@ -315,6 +317,7 @@
             this.itemOccuredTime.Name = "itemOccuredTime";
             this.itemOccuredTime.Size = new System.Drawing.Size(161, 21);
             this.itemOccuredTime.TabIndex = 28;
+            this.itemOccuredTime.TextChanged += new System.EventHandler(this.ItemOccuredTime_TextChanged);
             // 
             // label13
             // 
@@ -327,10 +330,10 @@
             // 
             // itemList
             // 
-            this.itemList.HideSelection = false;
-            this.itemList.Location = new System.Drawing.Point(264, 102);
+            this.itemList.CheckBoxes = true;
+            this.itemList.Location = new System.Drawing.Point(243, 102);
             this.itemList.Name = "itemList";
-            this.itemList.Size = new System.Drawing.Size(334, 268);
+            this.itemList.Size = new System.Drawing.Size(371, 238);
             this.itemList.TabIndex = 30;
             this.itemList.UseCompatibleStateImageBehavior = false;
             this.itemList.View = System.Windows.Forms.View.Details;
@@ -391,12 +394,23 @@
             this.label19.TabIndex = 36;
             this.label19.Text = "* 为必填/选项";
             // 
+            // removeItem
+            // 
+            this.removeItem.Location = new System.Drawing.Point(243, 346);
+            this.removeItem.Name = "removeItem";
+            this.removeItem.Size = new System.Drawing.Size(108, 23);
+            this.removeItem.TabIndex = 37;
+            this.removeItem.Text = "移除选择的账目";
+            this.removeItem.UseVisualStyleBackColor = true;
+            this.removeItem.Click += new System.EventHandler(this.RemoveItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(856, 465);
+            this.Controls.Add(this.removeItem);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.label17);
@@ -484,5 +498,6 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button removeItem;
     }
 }

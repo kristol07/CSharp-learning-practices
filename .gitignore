@@ -38,6 +38,8 @@ BasicConcepts/StudyCsharpApp/*
 ###################
 !AccountBook/
 AccountBook/*
+!/AccountBook/AccountsApp-Homework-Description.pdf
+!AccountBook/README.md
 !AccountBook/AccountConsoleApp/
 !AccountBook/AccountItem/
 !AccountBook/AccountWPFAPP/

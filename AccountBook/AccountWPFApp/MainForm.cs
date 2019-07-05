@@ -6,6 +6,8 @@ using System.Windows.Forms;
 
 namespace AccountWPFApp
 {
+    public delegate bool Validator();
+
     public partial class MainForm : Form
     {
         private Accounts ac;
@@ -13,30 +15,15 @@ namespace AccountWPFApp
         {
             InitializeComponent();
 
-            //Item item1 = new Item("eat1", Category.Spending, 220);
-
             ac = new Accounts();
-            //ac.AddItem(item1);
 
+            itemList.Columns.Add("选择");
             itemList.Columns.Add("名称");
-            itemList.Columns.Add("类型");
             itemList.Columns.Add("金额");
             itemList.Columns.Add("时间");
             itemList.Columns.Add("备注");
             itemList.Columns.Add("内容");
-
-            //foreach (Item item in ac.accounts)
-            //{
-            //    ListViewItem it = new ListViewItem();
-            //    it.SubItems.Add(item.Name);
-            //    it.SubItems.Add(item.category.ToString());
-            //    it.SubItems.Add(item.Amount.ToString());
-            //    it.SubItems.Add(item.OccuredTime.ToString());
-            //    it.SubItems.Add(item.Note);
-            //    it.SubItems.Add(item.Content);
-            //    itemList.Items.Add(it);
-            //    //itemList.Items.Add(item.ToString());
-            //}
+            itemList.Columns.Add("类型");
 
             DateTime time = DateTime.Now;
             totalRevenue.Text = $"{ac.TotalRevenue(time)}";
@@ -54,28 +41,15 @@ namespace AccountWPFApp
                 return;
             }
 
-            string name = itemName.Text;
+            SetDefaultValue();
 
-            Category category = (Category)Enum.Parse(typeof(Category), categoryName2Enum(itemCategory.SelectedItem.ToString()));
-            DateTime occuredTime = DateTime.Parse(itemOccuredTime.Text);
-            double amountValue = Double.Parse(itemAmount.Text);
-            Currency currency = (Currency)Enum.Parse(typeof(Currency), itemCurrency.SelectedItem.ToString());
-            string content = itemContent.Text;
-            string note = itemNote.Text;
-
-            Item item = new Item(name, category, content, note, amountValue, currency, occuredTime);
+            Item item = GenerateNewItem();
             ac.AddItem(item);
-            ListViewItem it = new ListViewItem();
-            it.SubItems.Add(item.Name);
-            it.SubItems.Add(item.category.ToString());
-            it.SubItems.Add(item.Amount.ToString());
-            it.SubItems.Add(item.OccuredTime.ToString());
-            it.SubItems.Add(item.Note);
-            it.SubItems.Add(item.Content);
-            itemList.Items.Add(it);
+
+            itemList.Items.Add(GenerateListViewItem(item));
             //itemList.Items.Add(item.ToString());
 
-            clearItem();
+            ClearItem();
 
         }
 
@@ -83,24 +57,24 @@ namespace AccountWPFApp
         {
             if (string.IsNullOrEmpty(importPathName.Text))
             {
-                MessageBox.Show("Input the path to import!");
+                MessageBox.Show("请输入路径！");
                 return;
             }
 
-            ac.LoadAccountBook(importPathName.Text);
-            itemList.Items.Clear();
-            foreach(Item item in ac.accounts)
+            if (ac.LoadAccountBook(importPathName.Text))
             {
-                ListViewItem it = new ListViewItem();
-                it.SubItems.Add(item.Name);
-                it.SubItems.Add(item.category.ToString());
-                it.SubItems.Add(item.Amount.ToString());
-                it.SubItems.Add(item.OccuredTime.ToString());
-                it.SubItems.Add(item.Note);
-                it.SubItems.Add(item.Content);
-                itemList.Items.Add(it);
-                //itemList.Items.Add(item.ToString());
+                itemList.Items.Clear();
+                foreach (Item item in ac.accounts)
+                {
+                    itemList.Items.Add(GenerateListViewItem(item));
+                    //itemList.Items.Add(item.ToString());
+                }
             }
+            else
+            {
+                MessageBox.Show("无法导入账本，请检查导入路径及文件的正确性。");
+            }
+
         }
 
         private void SaveAccountBook_Click(object sender, EventArgs e)
@@ -110,7 +84,23 @@ namespace AccountWPFApp
             {
                 pathName = Directory.GetCurrentDirectory();
             }
-            ac.SaveAccountBook(pathName);
+            if (ac.SaveAccountBook(pathName))
+            {
+                MessageBox.Show("成功保存账本。");
+            }
+            else
+            {
+                MessageBox.Show("保存账本失败，请检查保存路径是否正确。");
+            }
+        }
+
+        private void RemoveItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem it in itemList.CheckedItems)
+            {
+                ac.accounts.RemoveAt(itemList.Items.IndexOf(it));
+                itemList.Items.Remove(it);
+            }
         }
 
         private void DateTimePicker_ValueChanged(object sender, EventArgs e)
@@ -121,54 +111,25 @@ namespace AccountWPFApp
             totalSpending.Text = $"{ac.TotalExpenditure(time)}";
         }
 
-        private bool IsValidInput()
+        private void ItemOccuredTime_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(itemName.Text)) { return false; }
-            if (itemCategory.SelectedItem == null) { return false; }
-            if (!IsValidInputAmount() && string.IsNullOrEmpty(itemAmount.Text)) { return false; }
-
-            if (itemCurrency.SelectedItem == null)
-            {
-                itemCurrency.SelectedItem = itemCurrency.Items[0];
-            }
-
-            if (!string.IsNullOrEmpty(itemOccuredTime.Text))
-            {
-                if (!DateTime.TryParse(itemOccuredTime.Text, out DateTime occuredTime)) { return false; }
-            }
-            else
-            {
-                itemOccuredTime.Text = DateTime.Now.ToString();
-            }
-
-            if (string.IsNullOrEmpty(itemNote.Text)) { itemNote.Text = "无。"; }
-            if (string.IsNullOrEmpty(itemContent.Text)) { itemContent.Text = "无。"; }
-
-            return true;
-        }
-
-        private bool IsValidInputAmount()
-        {
-            if (!Double.TryParse(itemAmount.Text, out double amountResult)) { return false; }
-
-            return true;
+            ValidateInputWithColor(itemOccuredTime, IsValidInputOccuredTime);
         }
 
         private void ItemAmount_TextChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(itemAmount.Text))
-            {
-                if (!IsValidInputAmount())
-                {
-                    itemAmount.BackColor = System.Drawing.Color.Red;
-                }
-                else
-                {
-                    itemAmount.BackColor = System.Drawing.Color.White;
-                }
-            }
-
+            ValidateInputWithColor(itemAmount, IsValidInputAmount);
         }
+
+        private void ImportPathName_TextChanged(object sender, EventArgs e)
+        {
+            ValidateInputWithColor(importPathName, IsValidImportPath);
+        }
+
+        //private void SavePathName_TextChanged(object sender, EventArgs e)
+        //{
+        //    ValidateInputWithColor(savePathName, IsValidSavePath);
+        //}
 
         private string categoryName2Enum(string category)
         {
@@ -177,7 +138,86 @@ namespace AccountWPFApp
             return "";
         }
 
-        private void clearItem()
+        private bool IsValidInput()
+        {
+            if (string.IsNullOrEmpty(itemName.Text)) { return false; }
+            if (itemCategory.SelectedItem == null) { return false; }
+            if (!IsValidInputAmount() || string.IsNullOrEmpty(itemAmount.Text)) { return false; }
+
+            if (!string.IsNullOrEmpty(itemOccuredTime.Text))
+            {
+                if (!IsValidInputOccuredTime()) { return false; }
+            }
+
+            return true;
+        }
+
+        private void ValidateInputWithColor(TextBox textBox, Validator validator)
+        {
+            if (!string.IsNullOrEmpty(textBox.Text))
+            {
+                if (validator())
+                {
+                    textBox.BackColor = System.Drawing.Color.White;
+                }
+                else
+                {
+                    textBox.BackColor = System.Drawing.Color.Red;
+                }
+            }
+        }
+
+        private bool IsValidInputAmount()
+        {
+            return Double.TryParse(itemAmount.Text, out double amountResult);
+        }
+
+        private bool IsValidInputOccuredTime()
+        {
+            return DateTime.TryParse(itemOccuredTime.Text, out DateTime occuredTime);
+        }
+
+        //private bool IsValidSavePath()
+        //{
+        //    return File.Exists(savePathName.Text);
+        //}
+
+        private bool IsValidImportPath()
+        {
+            //return Directory.Exists(importPathName.Text) || File.Exists(importPathName.Text);
+            return File.Exists(importPathName.Text);
+        }
+
+        private void SetDefaultValue()
+        {
+            if (itemCurrency.SelectedItem == null)
+            {
+                itemCurrency.SelectedItem = itemCurrency.Items[0];
+            }
+
+            if (string.IsNullOrEmpty(itemOccuredTime.Text))
+            {
+                itemOccuredTime.Text = DateTime.Now.ToString();
+            }
+
+            if (string.IsNullOrEmpty(itemNote.Text)) { itemNote.Text = "无。"; }
+            if (string.IsNullOrEmpty(itemContent.Text)) { itemContent.Text = "无。"; }
+        }
+
+        private Item GenerateNewItem()
+        {
+            string name = itemName.Text;
+            Category category = (Category)Enum.Parse(typeof(Category), categoryName2Enum(itemCategory.SelectedItem.ToString()));
+            DateTime occuredTime = DateTime.Parse(itemOccuredTime.Text);
+            double amountValue = Double.Parse(itemAmount.Text);
+            Currency currency = (Currency)Enum.Parse(typeof(Currency), itemCurrency.SelectedItem.ToString());
+            string content = itemContent.Text;
+            string note = itemNote.Text;
+
+            return new Item(name, category, content, note, amountValue, currency, occuredTime);
+        }
+
+        private void ClearItem()
         {
             itemName.Clear();
             itemCategory.SelectedIndex = -1;
@@ -188,5 +228,18 @@ namespace AccountWPFApp
             itemNote.Clear();
         }
 
+        private ListViewItem GenerateListViewItem(Item item)
+        {
+            ListViewItem it = new ListViewItem();
+
+            it.SubItems.Add(item.Name);
+            it.SubItems.Add(item.Amount.ToString());
+            it.SubItems.Add(item.OccuredTime.ToString("yyyy/MM/dd"));
+            it.SubItems.Add(item.Note);
+            it.SubItems.Add(item.Content);
+            it.SubItems.Add(item.category.ToString());
+
+            return it;
+        }
     }
 }

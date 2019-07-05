@@ -13,6 +13,7 @@ namespace AccountConsoleApp
     public class Accounts
     {
         public List<Item> accounts = new List<Item>();
+        public string name = "Default";
 
         public Item this[int index]
         {
@@ -29,6 +30,11 @@ namespace AccountConsoleApp
         public void AddItem(Item item)
         {
             accounts.Add(item);
+        }
+
+        public void RemoveItem(Item item)
+        {
+            accounts.Remove(item);
         }
 
         public Money TotalRevenue(DateTime time)
@@ -145,18 +151,29 @@ namespace AccountConsoleApp
             }
         }
 
-        public void SaveAccountBook(string pathName)
+        public bool SaveAccountBook(string pathName)
         {
-            using (StreamWriter sw = new StreamWriter(pathName))
+            try
             {
-                foreach (Item item in accounts)
+                using (StreamWriter sw = new StreamWriter(pathName))
                 {
-                    sw.WriteLine(item.Save());
+                    foreach (Item item in accounts)
+                    {
+                        sw.WriteLine(item.Save());
+                    }
                 }
+                return true;
             }
+            catch (Exception e)
+            {
+                Console.WriteLine("Can't save this account book.");
+                Console.WriteLine(e.Message);
+                return false;
+            }
+
         }
 
-        public void LoadAccountBook(string pathName)
+        public bool LoadAccountBook(string pathName)
         {
             try
             {
@@ -172,13 +189,16 @@ namespace AccountConsoleApp
                             if (i < accounts.Count) { this[i++] = item; }
                             else { this.AddItem(item); }
                         }
-                    }
+                    }   
                 }
+
+                return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine("Can't save the account book.");
+                Console.WriteLine("Can't load this account book.");
                 Console.WriteLine(e.Message);
+                return false;
             }
 
         }
