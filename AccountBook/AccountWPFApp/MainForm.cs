@@ -37,7 +37,7 @@ namespace AccountWPFApp
 
             if (!IsValidInput())
             {
-                MessageBox.Show("Invalid Input!");
+                MessageBox.Show("请检查数据输入！");
                 return;
             }
 
@@ -63,6 +63,8 @@ namespace AccountWPFApp
 
             if (ac.LoadAccountBook(importPathName.Text))
             {
+                importPathName.Clear();
+
                 itemList.Items.Clear();
                 foreach (Item item in ac.accounts)
                 {
@@ -86,6 +88,7 @@ namespace AccountWPFApp
             }
             if (ac.SaveAccountBook(pathName))
             {
+                savePathName.Clear();
                 MessageBox.Show("成功保存账本。");
             }
             else

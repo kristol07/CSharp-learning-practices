@@ -166,8 +166,8 @@ namespace AccountConsoleApp
             }
             catch (Exception e)
             {
-                Console.WriteLine("Can't save this account book.");
-                Console.WriteLine(e.Message);
+                //Console.WriteLine("Can't save this account book.");
+                //Console.WriteLine(e.Message);
                 return false;
             }
 
@@ -182,13 +182,15 @@ namespace AccountConsoleApp
                     using (var streamReader = new StreamReader(pathName, Encoding.UTF8))
                     {
                         string line;
-                        int i = 0;
+                        List<Item> importedAccounts = new List<Item>();
                         while ((line = streamReader.ReadLine()) != null)
                         {
                             Item item = Item.String2Item(line);
-                            if (i < accounts.Count) { this[i++] = item; }
-                            else { this.AddItem(item); }
+                            importedAccounts.Add(item);
                         }
+
+                        // Don't clear accounts data before the successs of all loaddata.
+                        accounts = importedAccounts; 
                     }   
                 }
 
@@ -196,8 +198,8 @@ namespace AccountConsoleApp
             }
             catch (Exception e)
             {
-                Console.WriteLine("Can't load this account book.");
-                Console.WriteLine(e.Message);
+                //Console.WriteLine("Can't load this account book.");
+                //Console.WriteLine(e.Message);
                 return false;
             }
 
