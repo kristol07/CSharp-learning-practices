@@ -18,6 +18,9 @@ namespace AccountItem
         public double Value;
         public Currency currency;
 
+        public const double CurrencyUSD = 6.93;
+        public const double CurrencyEUR = 7.76;
+
         private double Num
         {
             get
@@ -25,9 +28,9 @@ namespace AccountItem
                 switch (this.currency)
                 {
                     case Currency.USD:
-                        return Value * 6.92;
+                        return Value * CurrencyUSD;
                     case Currency.EUR:
-                        return Value * 7.76;
+                        return Value * CurrencyEUR;
                     default:
                         return Value;
                 }

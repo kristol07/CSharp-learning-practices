@@ -45,6 +45,7 @@ namespace AccountItem
         public Item(string name, Category category, double amount, DateTime occuredTime) : this(name, category, "None", "None", amount, Currency.RMB, occuredTime) { }
         public Item(string name, Category category, string content, double amount) : this(name, category, content, "None", amount, Currency.RMB, DateTime.Now) { }
         public Item(string name, Category category, double amount, Currency currency) : this(name, category, "None", "None", amount, currency, DateTime.Now) { }
+        public Item(string name, Category category, double amount, Currency currency, DateTime occuredTime) : this(name, category, "None", "None", amount, currency, occuredTime) { }
         public Item(string name, Category category, string content, double amount, Currency currency) : this(name, category, content, "None", amount, currency, DateTime.Now) { }
         public Item(string name, Category category, string content, string note, double amount, Currency currency, DateTime occuredTime)
         {

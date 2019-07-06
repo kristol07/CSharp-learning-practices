@@ -13,7 +13,7 @@ namespace AccountConsoleApp
     public class Accounts
     {
         public List<Item> accounts = new List<Item>();
-        public string name = "Default";
+        //public string name = "Default";
 
         public Item this[int index]
         {
